@@ -28,10 +28,13 @@ import {watch, reactive, ref} from "vue"
 // import ButtonComponent from "../components/ButtonComponent.vue"
 // import FieldComponent from "../components/FieldComponent.vue"
 import inputValidato from "../utils/input-validato"
+import { useRouter } from "vue-router"
 
-const data = reactive({
+const router = useRouter()
+
+ const data = reactive({
     email:"",
-    password:""
+     password:""
 })
 
 const email = ref('')
@@ -46,35 +49,49 @@ watch(password, (val) => {
 })
 
 
- const submitHandler = function() {
-     
+ const submitHandler = async() => {
+     const result = await fetch("user.json")
+     const users = await result.json()
+     console.log(users)
+
+     const user = users.find((user:any) => user.email === email.value)
+     if(!user){
+        alert('user not found')
+        return
+     }
+     if(!(user.password === password.value)){
+        alert('mauvais mot de passe')
+        return
+     }
+     console.log('Tout se passe bien')
+     router.push('session/' + user.id)
 }
 
-const fields = [
-    {
-        id:"email",
-        type:"email",
-        placeholder: "Entrer votre identifiant"
-    },
-    {
-        id:"password",
-        type:"password",
-        placeholder: "Entrer votre mot de passe"
-    }
-]
+// const fields = [
+//     {
+//         id:"email",
+//         type:"email",
+//         placeholder: "Entrer votre identifiant"
+//     },
+//     {
+//         id:"password",
+//         type:"password",
+//         placeholder: "Entrer votre mot de passe"
+//     }
+// ]
 
-const buttons = [
-    {
-        id: "submit-button",
-        type: "submit",
-        textContent: "Valider"
-    },
-    {
-        id :"reset-button",
-        type: "reset",
-        placeholder: "Réinitialiser"
-    }
-]
+// const buttons = [
+//     {
+//         id: "submit-button",
+//         type: "submit",
+//         textContent: "Valider"
+//     },
+//     {
+//         id :"reset-button",
+//         type: "reset",
+//         placeholder: "Réinitialiser"
+//     }
+// ]
 
 </script>
 <style></style>

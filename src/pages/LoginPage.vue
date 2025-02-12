@@ -24,9 +24,9 @@
     </main>
 </template>
 <script setup lang="ts">
-import {watch, reactive} from "vue"
-import ButtonComponent from "../components/ButtonComponent.vue"
-import FieldComponent from "../components/FieldComponent.vue"
+import {watch, reactive, ref} from "vue"
+// import ButtonComponent from "../components/ButtonComponent.vue"
+// import FieldComponent from "../components/FieldComponent.vue"
 import inputValidato from "../utils/input-validato"
 
 const data = reactive({
@@ -34,23 +34,21 @@ const data = reactive({
     password:""
 })
 
-const error = reactive({
-    errorEmail: "",
-    errorPassword: ""
+const email = ref('')
+const password = ref('')
+
+watch(email, (val) => {
+     inputValidato(val, 'email')
 })
 
-watch(data.email, (val) => {
-    inputValidato(val, 'email')
-})
-
-watch(data.password, (val) => {
+watch(password, (val) => {
     inputValidato(val, 'password')
 })
 
 
-// const submitHandler = function() {
-//     error.errorEmail = isUserInputValid(data.email) ?'Email valide' :'Email incorrecte'
-// }
+ const submitHandler = function() {
+     
+}
 
 const fields = [
     {
